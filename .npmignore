@@ -1,0 +1,42 @@
+# Source files
+/src
+*.ts
+!*.d.ts
+
+# Build files
+/out-tsc
+/dist
+/bazel-out
+
+# Test files
+*.spec.ts
+*.test.ts
+/test
+
+# IDE files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Config files
+tsconfig.json
+tsconfig.lib.json
+ng-package.json
+.angular.json
+karma.conf.js
+.prettierrc
+.eslintrc.json
+
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+!README.md
+
+# Misc
+.DS_Store
+Thumbs.db
