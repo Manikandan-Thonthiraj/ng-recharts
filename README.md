@@ -19,200 +19,186 @@ Bring the power, flexibility, and beauty of [Recharts](https://recharts.org/) to
 npm install ng-recharts recharts react react-dom react-is
 ```
 
-## Example Application
+## 📖 Usage Guide
 
-A complete example application is included in the `example-app` directory. To run it:
+`ng-recharts` is designed to be intuitive for Angular developers while offering the full power of Recharts.
 
-```bash
-cd example-app
-npm install
-npm start
-```
+### 1. Import Standalone Components
 
-The example app demonstrates all chart types with working code examples. See [example-app/README.md](./example-app/README.md) for details.
-
-## Requirements
-
-**Angular Version**: This package requires **Angular 14.0.0 or higher**.
-
-## Peer Dependencies
-
-This package requires the following peer dependencies:
-
-- `@angular/common` ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0
-- `@angular/core` ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0
-- `recharts` ^2.0.0 || ^3.0.0
-- `react` ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-- `react-dom` ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-- `react-is` ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
-
-## Angular Version Compatibility
-
-This package is designed and tested for **Angular 14+** projects. It fully supports:
-
-- ✅ **Angular 14** - Standalone components, modern build system
-- ✅ **Angular 15** - All Angular 14 features plus improvements
-- ✅ **Angular 16** - Signals support (when used in your app)
-- ✅ **Angular 17** - New control flow syntax compatible
-- ✅ **Angular 18** - Latest Angular features
-- ✅ **Angular 19** - Enhanced features support
-- ✅ **Angular 20** - Latest improvements
-- ✅ **Angular 21** - Latest version support
-
-### Standalone Components (Recommended)
-
-All components are **standalone** and can be imported directly in Angular 14+ projects without requiring a module.
-
-## Usage
-
-### Import Standalone Components (Angular 14+ - Recommended)
+Import the specific chart component you need into your Angular component.
 
 ```typescript
-import { NgRechartsLineChartComponent } from 'ng-recharts';
+import { Component } from '@angular/core';
+import { NgRechartsLineChartComponent, LineChartConfig } from 'ng-recharts';
 
 @Component({
-  selector: 'app-chart',
+  selector: 'app-my-chart',
   standalone: true,
   imports: [NgRechartsLineChartComponent],
   template: `
     <ng-recharts-line-chart
-      [width]="400"
+      [width]="500"
       [height]="300"
-      [data]="chartData"
-      [config]="chartConfig">
+      [data]="data"
+      [config]="config"
+      (chartClick)="onChartClick($event)"
+      (lineClick)="onLineClick($event)">
     </ng-recharts-line-chart>
   `
 })
-export class ChartComponent {
-  chartData = [
-    { name: 'Page A', uv: 400, pv: 2400 },
-    { name: 'Page B', uv: 300, pv: 1398 },
-    { name: 'Page C', uv: 200, pv: 9800 },
+export class MyChartComponent {
+  data = [
+    { name: 'Jan', uv: 400, pv: 2400 },
+    { name: 'Feb', uv: 300, pv: 1398 },
+    { name: 'Mar', uv: 200, pv: 9800 },
   ];
 
-  chartConfig = {
+  config: LineChartConfig = {
     cartesianGrid: { strokeDasharray: '3 3' },
     xAxis: { dataKey: 'name' },
     yAxis: {},
-    tooltip: {},
+    tooltip: { trigger: 'hover' },
     legend: {},
     lines: [
-      { type: 'monotone', dataKey: 'pv', stroke: '#8884d8' },
+      { type: 'monotone', dataKey: 'pv', stroke: '#8884d8', strokeWidth: 2 },
       { type: 'monotone', dataKey: 'uv', stroke: '#82ca9d' }
     ]
   };
+
+  onChartClick(event: any) {
+    console.log('Chart clicked:', event);
+  }
+
+  onLineClick(event: any) {
+    console.log('Line clicked:', event);
+  }
 }
 ```
 
-## Available Components
+## 📚 API Reference
 
-### LineChart
+### Common Inputs
 
-```typescript
-import { NgRechartsLineChartComponent, LineChartConfig } from 'ng-recharts';
+All chart components accept the following input properties:
 
-chartConfig: LineChartConfig = {
-  cartesianGrid: { strokeDasharray: '3 3' },
-  xAxis: { dataKey: 'name' },
-  yAxis: {},
-  tooltip: {},
-  legend: {},
-  lines: [
-    { type: 'monotone', dataKey: 'pv', stroke: '#8884d8' }
-  ]
-};
-```
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `width` | `number` | `500` | Width of the chart in pixels. |
+| `height` | `number` | `300` | Height of the chart in pixels. |
+| `data` | `any[]` | `[]` | Array of data objects to visualize. |
+| `margin` | `ChartMargin` | `undefined` | Margin around the chart (`{ top, right, bottom, left }`). |
+| `config` | `ChartConfig` | `undefined` | Configuration object for chart elements (axes, grid, tooltip, etc.). |
 
-### BarChart
+### Common Outputs (Events)
 
-```typescript
-import { NgRechartsBarChartComponent, BarChartConfig } from 'ng-recharts';
+| Output | Event Payload | Description |
+|--------|---------------|-------------|
+| `chartClick` | `{ data, index, type: 'chart' }` | Emitted when the chart background is clicked. |
+| `lineClick` | `{ data, index, type: 'line', config }` | Emitted when a line element is clicked. |
+| `barClick` | `{ data, index, type: 'bar', config }` | Emitted when a bar element is clicked. |
+| `areaClick` | `{ data, index, type: 'area', config }` | Emitted when an area element is clicked. |
+| `cellClick` | `{ data, index, type: 'cell', config }` | Emitted when a specific cell (e.g., inside Pie) is clicked. |
+| `radarClick` | `{ data, index, type: 'radar', config }` | Emitted when a radar element is clicked. |
 
-chartConfig: BarChartConfig = {
-  cartesianGrid: { strokeDasharray: '3 3' },
-  xAxis: { dataKey: 'name' },
-  yAxis: {},
-  tooltip: {},
-  legend: {},
-  bars: [
-    { dataKey: 'pv', fill: '#8884d8' }
-  ]
-};
-```
+## 🛠️ Configuration Object
 
-### PieChart
+The `config` input is the heart of `ng-recharts`. It allows you to define the structure and styling of your chart. It roughly maps to the Recharts component structure.
+
+### Structure
 
 ```typescript
-import { NgRechartsPieChartComponent, PieChartConfig } from 'ng-recharts';
-
-chartConfig: PieChartConfig = {
-  tooltip: {},
-  legend: {},
-  pie: {
-    dataKey: 'value',
-    cx: '50%',
-    cy: '50%',
-    outerRadius: 80
-  },
-  cells: [
-    { fill: '#8884d8' },
-    { fill: '#83a6ed' },
-    { fill: '#8dd1e1' }
-  ]
-};
+interface ChartConfig {
+  cartesianGrid?: CartesianGridConfig; // Grid lines
+  xAxis?: AxisConfig;                  // X-Axis configuration
+  yAxis?: AxisConfig;                  // Y-Axis configuration
+  tooltip?: TooltipConfig;             // Tooltip on hover
+  legend?: LegendConfig;               // Chart legend
+  // Component specific:
+  lines?: LineConfig[];                // for LineChart
+  bars?: BarConfig[];                  // for BarChart
+  areas?: AreaConfig[];                // for AreaChart
+  pie?: PieConfig;                     // for PieChart
+  // ... and others
+}
 ```
 
-### AreaChart
+### Detailed Configuration Examples
 
+#### Axes (`xAxis`, `yAxis`)
 ```typescript
-import { NgRechartsAreaChartComponent, AreaChartConfig } from 'ng-recharts';
-
-chartConfig: AreaChartConfig = {
-  cartesianGrid: { strokeDasharray: '3 3' },
-  xAxis: { dataKey: 'name' },
-  yAxis: {},
-  tooltip: {},
-  legend: {},
-  areas: [
-    { type: 'monotone', dataKey: 'uv', stroke: '#8884d8', fill: '#8884d8' }
-  ]
-};
+xAxis: {
+  dataKey: 'name',      // Key in data object
+  type: 'category',     // 'number' | 'category'
+  orientation: 'bottom',
+  tick: { fill: 'red' } // Custom tick styles
+}
 ```
 
-### ComposedChart
-
+#### Tooltip (`tooltip`)
 ```typescript
-import { NgRechartsComposedChartComponent, ComposedChartConfig } from 'ng-recharts';
+tooltip: {
+  trigger: 'hover',     // 'hover' | 'click'
+  formatter: (value) => [`$${value}`, 'Amount'],
+  contentStyle: { backgroundColor: '#333', color: '#fff' } // Custom styles
+}
+```
+*Note: To disable tooltip, set `tooltip: false` or `tooltip: null`.*
 
-chartConfig: ComposedChartConfig = {
-  cartesianGrid: { strokeDasharray: '3 3' },
-  xAxis: { dataKey: 'name' },
-  yAxis: {},
-  tooltip: {},
-  legend: {},
-  lines: [
-    { type: 'monotone', dataKey: 'uv', stroke: '#8884d8' }
-  ],
-  bars: [
-    { dataKey: 'pv', fill: '#82ca9d' }
-  ]
-};
+#### Grid (`cartesianGrid`)
+```typescript
+cartesianGrid: {
+  strokeDasharray: '3 3',
+  stroke: '#ccc'
+}
 ```
 
-## Configuration
+## 📦 Available Components
 
-All chart components accept a `config` object that maps to Recharts component props. The configuration structure follows the Recharts component hierarchy:
+### `NgRechartsResponsiveContainerComponent`
+Wraps a chart to make it responsive to its parent container's dimensions.
 
-- `cartesianGrid` → `CartesianGrid` props
-- `xAxis` → `XAxis` props
-- `yAxis` → `YAxis` props
-- `tooltip` → `Tooltip` props
-- `legend` → `Legend` props
-- `lines` → Array of `Line` props
-- `bars` → Array of `Bar` props
-- `areas` → Array of `Area` props
-- `pie` → `Pie` props
-- `cells` → Array of `Cell` props (for PieChart)
+**Inputs:**
+- `width` (number | string): Percentage (e.g., '100%') or pixels. Default '100%'.
+- `height` (number | string): Percentage or pixels. Default '100%'.
+- `minHeight` (number): Minimum height in pixels. Default `200`.
+- `aspect` (number): Width / Height ratio.
+
+**Usage:**
+```html
+<div style="width: 100%; height: 400px;">
+  <ng-recharts-responsive-container>
+    <ng-recharts-line-chart [data]="data" [config]="config"></ng-recharts-line-chart>
+  </ng-recharts-responsive-container>
+</div>
+```
+
+### Chart Components
+- `<ng-recharts-line-chart>`
+- `<ng-recharts-bar-chart>`
+- `<ng-recharts-area-chart>`
+- `<ng-recharts-pie-chart>`
+- `<ng-recharts-composed-chart>`
+- `<ng-recharts-scatter-chart>`
+- `<ng-recharts-radar-chart>`
+- `<ng-recharts-radial-bar-chart>`
+- `<ng-recharts-treemap-chart>`
+
+## 🎨 Styling & Customization
+
+Recharts relies heavily on SVG properties. You can pass standard SVG styles like `stroke`, `fill`, `strokeWidth`, `opacity` directly in the configuration objects for lines, bars, areas, etc.
+
+**Example: Custom styled Line**
+```typescript
+lines: [
+  {
+    type: 'natural',
+    dataKey: 'uv',
+    stroke: '#FF0000',
+    strokeWidth: 4,
+    dot: { stroke: 'blue', strokeWidth: 2 }
+  }
+]
+```
 
 ## Angular Version Support
 
@@ -233,32 +219,6 @@ See [COMPATIBILITY.md](./COMPATIBILITY.md) for detailed compatibility informatio
 MIT
 
 This package wraps Recharts, which is also licensed under MIT. See the [Recharts license](https://github.com/recharts/recharts/blob/main/LICENSE) for details.
-
-## Testing
-
-### Unit Tests
-```bash
-npm test
-```
-
-### E2E Tests
-End-to-end tests are available using Playwright:
-
-```bash
-# Install Playwright browsers (first time only)
-npx playwright install
-
-# Run e2e tests
-npm run e2e
-
-# Run in UI mode (interactive)
-npm run e2e:ui
-
-# Run in headed mode (see browser)
-npm run e2e:headed
-```
-
-The e2e tests verify that all chart components render correctly in the example app. See [e2e/README.md](./e2e/README.md) for details.
 
 ## Credits
 
