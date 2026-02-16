@@ -1,0 +1,8 @@
+# Playwright ignore patterns
+node_modules/
+dist/
+.angular/
+*.log
+coverage/
+test-results/
+playwright-report/

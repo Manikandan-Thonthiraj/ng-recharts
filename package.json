@@ -1,0 +1,77 @@
+{
+  "name": "ng-recharts",
+  "version": "1.0.0",
+  "description": "The Ultimate Angular Wrapper for Recharts. Bring the power of Recharts to Angular applications.",
+  "author": "Manikandan Thonthiraj",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Manikandan-Thonthiraj/ng-recharts.git"
+  },
+  "keywords": [
+    "angular",
+    "recharts",
+    "charts",
+    "d3",
+    "data visualization",
+    "angular-library"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0",
+    "@angular/core": "^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-is": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "recharts": "^2.0.0 || ^3.0.0"
+  },
+  "main": "bundles/ng-recharts.umd.js",
+  "module": "fesm2022/ng-recharts.mjs",
+  "es2022": "fesm2022/ng-recharts.mjs",
+  "esm2022": "esm2022/ng-recharts.mjs",
+  "fesm2022": "fesm2022/ng-recharts.mjs",
+  "typings": "index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "es2022": "./fesm2022/ng-recharts.mjs",
+      "esm2022": "./esm2022/ng-recharts.mjs",
+      "default": "./fesm2022/ng-recharts.mjs"
+    }
+  },
+  "scripts": {
+    "build": "ng build ng-recharts",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui",
+    "e2e:headed": "playwright test --headed",
+    "prepublishOnly": "npm run build"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "src/public-api.ts"
+    }
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular/cli": "^18.0.0",
+    "@angular/common": "^18.2.14",
+    "@angular/compiler": "^18.2.14",
+    "@angular/compiler-cli": "^18.0.0",
+    "@angular/core": "^18.2.14",
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "ng-packagr": "^18.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-is": "^18.3.1",
+    "recharts": "^3.7.0",
+    "typescript": "~5.4.0"
+  }
+}
